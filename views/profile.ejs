@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <%- include('partials/head', { title: 'Catatan Saya' }) %>
+</head>
+<body>
+  <%- include('partials/navbar', { session, active: 'profile' }) %>
+
+  <section class="section">
+    <div class="wrap">
+      <%- include('partials/alert', { notif, error }) %>
+
+      <div class="split" style="padding-top:0;">
+        <main>
+          <div class="panel reveal">
+            <span class="eyebrow">Rencana &amp; riwayat</span>
+            <h2>Pendakian yang kamu simpan</h2>
+
+            <% if (histories.length === 0) { %>
+              <div class="blank">
+                <h3>Catatanmu masih kosong</h3>
+                <p>Buka halaman detail gunung, lalu simpan statusnya ke catatan ini.</p>
+                <a href="/mountains" class="btn btn-moss btn-sm">Cari gunung</a>
+              </div>
+            <% } else { %>
+              <table class="table" style="margin-top:18px;">
+                <thead>
+                  <tr>
+                    <th>Gunung</th>
+                    <th>Ketinggian</th>
+                    <th>Status</th>
+                    <th>Disimpan</th>
+                    <th>Simaksi</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <% histories.forEach((history) => { %>
+                    <tr>
+                      <td>
+                        <a href="/mountains/<%= history.Mountain.id %>"><b><%= history.Mountain.name %></b></a>
+                        <div style="color:var(--ink-soft); font-size:13px;"><%= history.Mountain.location %></div>
+                      </td>
+                      <td class="num"><%= history.Mountain.heightFormatted %></td>
+                      <td><span class="badge badge-moss"><%= history.status %></span></td>
+                      <td><%= formatDate(history.createdAt) %></td>
+                      <td>
+                        <a href="/histories/<%= history.id %>/invoice" class="btn btn-line btn-sm">Unduh PDF</a>
+                        <div class="num" style="color:var(--ink-soft); font-size:12.5px; margin-top:4px;"><%= formatRupiah(history.simaksiFee()) %></div>
+                      </td>
+                    </tr>
+                  <% }) %>
+                </tbody>
+              </table>
+            <% } %>
+          </div>
+        </main>
+
+        <aside>
+          <div class="panel reveal" style="text-align:center;">
+            <div class="avatar" style="width:64px; height:64px; border-radius:18px; font-size:20px; margin:0 auto 14px;">
+              <%= user.Profile ? user.Profile.initial : 'GK' %>
+            </div>
+            <h3><%= user.Profile ? user.Profile.fullName : user.username %></h3>
+            <p class="lead" style="font-size:14px;"><%= user.maskedEmail %></p>
+            <p style="margin-top:10px;"><span class="badge badge-sun"><%= user.role %></span></p>
+            <p style="margin-top:14px; font-size:14px; color:var(--ink-soft);">
+              <%= user.Profile && user.Profile.bio ? user.Profile.bio : 'Belum ada bio.' %>
+            </p>
+          </div>
+
+          <div class="panel reveal">
+            <h3>Tentang simaksi simulasi</h3>
+            <p class="lead">Tiap rencana pendakian bisa diunduh sebagai PDF berisi rincian gunung dan biayanya. Dokumen ini latihan berkas, bukan izin resmi. Untuk mendaki sungguhan, daftar lewat balai taman nasional setempat.</p>
+          </div>
+
+          <% if (user.isAdmin()) { %>
+            <div class="panel reveal">
+              <h3>Gunung yang kamu kelola</h3>
+              <ul class="facts">
+                <% user.Mountains.forEach((mountain) => { %>
+                  <li>
+                    <a href="/mountains/<%= mountain.id %>"><b><%= mountain.name %></b></a>
+                    <p><%= mountain.location %></p>
+                  </li>
+                <% }) %>
+              </ul>
+            </div>
+          <% } %>
+        </aside>
+      </div>
+    </div>
+  </section>
+
+  <%- include('partials/footer') %>
+</body>
+</html>

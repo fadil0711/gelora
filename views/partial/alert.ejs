@@ -1,0 +1,6 @@
+<% if (typeof notif !== 'undefined' && notif) { %>
+  <div class="alert alert-ok" role="status"><%= notif %></div>
+<% } %>
+<% if (typeof error !== 'undefined' && error) { %>
+  <div class="alert alert-bad" role="alert"><%= error %></div>
+<% } %>

@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <%- include('partials/head', { title: 'Ensiklopedia Pendakian Indonesia' }) %>
+</head>
+<body>
+  <%- include('partials/navbar', { session, active: 'home' }) %>
+
+  <header class="hero">
+    <div class="wrap">
+      <span class="hero-tag">Belajar sebelum mendaki</span>
+      <h1>Setiap puncak punya <em>cerita</em> sebelum punya jalur.</h1>
+      <p>Sejarah, flora, fauna, dan fakta unik pegunungan Indonesia dirangkum jadi satu bacaan sebelum kamu menyusun rencana pendakian.</p>
+      <div class="hero-actions">
+        <a href="/mountains" class="btn btn-sun">Mulai jelajah</a>
+        <a href="#populer" class="btn btn-line">Lihat gunung populer</a>
+      </div>
+    </div>
+  </header>
+
+  <div class="wrap">
+    <form class="finder finder-float" action="/mountains" method="GET">
+      <div class="field">
+        <label for="search">Cari gunung atau daerah</label>
+        <input type="text" id="search" name="search" placeholder="Semeru, Rinjani, Jawa Timur...">
+      </div>
+      <div class="field">
+        <label for="sort">Urutkan</label>
+        <select id="sort" name="sort">
+          <option value="">Paling awal ditambahkan</option>
+          <option value="tertinggi">Ketinggian tertinggi</option>
+          <option value="terendah">Ketinggian terendah</option>
+          <option value="nama">Nama A sampai Z</option>
+        </select>
+      </div>
+      <button type="submit" class="btn btn-moss">Telusuri</button>
+    </form>
+  </div>
+
+  <section class="section" id="populer">
+    <div class="wrap">
+      <div class="head">
+        <div>
+          <span class="eyebrow">Puncak tertinggi</span>
+          <h2>Mulai dari yang paling menjulang</h2>
+          <p>Diurutkan dari ketinggian. Angka di tiap kartu menunjukkan posisinya terhadap Kerinci, atap Sumatra sekaligus gunung api tertinggi Indonesia.</p>
+        </div>
+        <a href="/mountains" class="btn btn-line btn-sm">Semua gunung</a>
+      </div>
+
+      <div class="cards">
+        <% mountains.forEach((mountain) => { %>
+          <%- include('partials/mountainCard', { mountain }) %>
+        <% }) %>
+      </div>
+    </div>
+  </section>
+
+  <section class="section-tight">
+    <div class="wrap">
+      <div class="stats reveal">
+        <div class="stat"><b class="num"><%= totalMountain %></b><span>Gunung dengan materi lengkap</span></div>
+        <div class="stat"><b class="num"><%= totalUser %></b><span>Pendaki bergabung</span></div>
+        <div class="stat"><b class="num">3</b><span>Kategori materi tiap gunung</span></div>
+        <div class="stat"><b class="num">0</b><span>Sampah yang boleh ditinggal</span></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="wrap">
+      <div class="head">
+        <div>
+          <span class="eyebrow">Cara pakai</span>
+          <h2>Tiga langkah sebelum kamu berangkat</h2>
+        </div>
+      </div>
+      <div class="cards">
+        <article class="panel reveal">
+          <span class="badge badge-moss">Langkah 1</span>
+          <h3 style="margin-top:10px;">Baca profil gunungnya</h3>
+          <p class="lead">Sejarah, ketinggian, dan status jalur terbaru ada di satu halaman detail.</p>
+        </article>
+        <article class="panel reveal">
+          <span class="badge badge-sun">Langkah 2</span>
+          <h3 style="margin-top:10px;">Kenali flora dan faunanya</h3>
+          <p class="lead">Tahu apa yang dilindungi membuat langkahmu lebih hati-hati di jalur.</p>
+        </article>
+        <article class="panel reveal">
+          <span class="badge badge-sky">Langkah 3</span>
+          <h3 style="margin-top:10px;">Simpan rencana pendakian</h3>
+          <p class="lead">Catat statusmu, lalu unduh simulasi simaksi sebagai latihan berkas.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <%- include('partials/footer') %>
+</body>
+</html>

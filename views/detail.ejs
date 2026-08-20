@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <%- include('partials/head', { title: mountain.name }) %>
+</head>
+<body>
+  <%- include('partials/navbar', { session, active: 'mountains' }) %>
+
+  <header class="peak">
+    <img src="<%= mountain.imgUrl %>" alt="Pemandangan <%= mountain.name %>">
+    <div class="scrim"></div>
+    <div class="contour"></div>
+    <div class="wrap">
+      <span class="eyebrow" style="color:#dd9a34;">Profil gunung</span>
+      <h1><%= mountain.name %></h1>
+      <div class="where"><%= mountain.location %></div>
+      <div class="pills">
+        <span class="pill num"><%= mountain.heightFormatted %></span>
+        <span class="pill">Tingkat <%= mountain.difficulty() %></span>
+        <span class="pill">Jalur <%= mountain.trailStatus %></span>
+        <span class="pill"><%= mountain.Educations.length %> materi &middot; <%= mountain.Comments.length %> komentar</span>
+      </div>
+    </div>
+  </header>
+
+  <div class="wrap">
+    <div style="padding-top:26px;">
+      <%- include('partials/alert', { notif, error }) %>
+    </div>
+
+    <div class="split">
+      <main>
+        <article class="panel prose reveal">
+          <span class="eyebrow">Narasi sejarah</span>
+          <h2>Kisah di balik <%= mountain.name %></h2>
+          <p><%= mountain.history %></p>
+        </article>
+
+        <article class="panel reveal">
+          <span class="eyebrow">Fakta unik</span>
+          <h2>Yang jarang diketahui pendaki</h2>
+          <p class="lead"><%= mountain.funFact %></p>
+          <% if (facts.length > 0) { %>
+            <ul class="facts" style="margin-top:16px;">
+              <% facts.forEach((fact) => { %>
+                <li>
+                  <span class="badge <%= fact.badgeColor %>"><%= fact.category %></span>
+                  <b><%= fact.title %></b>
+                  <p><%= fact.content %></p>
+                </li>
+              <% }) %>
+            </ul>
+          <% } %>
+        </article>
+
+        <section class="panel reveal">
+          <span class="eyebrow">Ruang diskusi</span>
+          <h2>Catatan pendaki lain</h2>
+
+          <form action="/mountains/<%= mountain.id %>/comments" method="POST" style="margin:16px 0 26px;">
+            <div class="field-block">
+              <label for="content">Tulis komentarmu</label>
+              <textarea id="content" name="content" placeholder="Bagikan pengalaman, kondisi jalur terakhir, atau pertanyaan soal gunung ini"></textarea>
+            </div>
+            <button type="submit" class="btn btn-moss">Kirim komentar</button>
+          </form>
+
+          <% if (mountain.Comments.length === 0) { %>
+            <p class="lead">Belum ada komentar di sini. Ceritamu bisa jadi yang pertama.</p>
+          <% } else { %>
+            <% mountain.Comments.forEach((comment) => { %>
+              <div class="note-card">
+                <div class="note-head">
+                  <div class="avatar"><%= comment.User.Profile ? comment.User.Profile.initial : 'GK' %></div>
+                  <div>
+                    <b><%= comment.User.Profile ? comment.User.Profile.fullName : comment.User.username %></b>
+                    <small style="display:block;"><%= comment.postedAt %></small>
+                  </div>
+                  <% if (comment.isOwnedBy(session.userId)) { %>
+                    <div class="note-actions">
+                      <a href="/comments/<%= comment.id %>/edit" class="btn btn-line btn-sm">Edit</a>
+                      <a href="/comments/<%= comment.id %>/delete" class="btn btn-danger btn-sm" data-confirm="Hapus komentar ini?">Hapus</a>
+                    </div>
+                  <% } %>
+                </div>
+                <p><%= comment.content %></p>
+              </div>
+            <% }) %>
+          <% } %>
+        </section>
+      </main>
+
+      <aside>
+        <div class="panel reveal">
+          <h3>Rencana pendakianmu</h3>
+          <p class="lead" style="margin-bottom:14px;">Simpan gunung ini ke catatan pribadimu.</p>
+          <form action="/mountains/<%= mountain.id %>/histories" method="POST">
+            <div class="field-block">
+              <label for="status">Status</label>
+              <select id="status" name="status">
+                <% hikeStatuses.forEach((status) => { %>
+                  <option value="<%= status %>"><%= status %></option>
+                <% }) %>
+              </select>
+            </div>
+            <button type="submit" class="btn btn-sun btn-full">Simpan ke catatan</button>
+          </form>
+        </div>
+
+        <div class="panel reveal">
+          <h3>Flora</h3>
+          <% if (floras.length === 0) { %>
+            <p class="lead">Data flora belum tersedia.</p>
+          <% } else { %>
+            <ul class="facts">
+              <% floras.forEach((flora) => { %>
+                <li>
+                  <span class="badge <%= flora.badgeColor %>">Flora</span>
+                  <b><%= flora.title %></b>
+                  <p><%= flora.content %></p>
+                </li>
+              <% }) %>
+            </ul>
+          <% } %>
+        </div>
+
+        <div class="panel reveal">
+          <h3>Fauna</h3>
+          <% if (faunas.length === 0) { %>
+            <p class="lead">Data fauna belum tersedia.</p>
+          <% } else { %>
+            <ul class="facts">
+              <% faunas.forEach((fauna) => { %>
+                <li>
+                  <span class="badge <%= fauna.badgeColor %>">Fauna</span>
+                  <b><%= fauna.title %></b>
+                  <p><%= fauna.content %></p>
+                </li>
+              <% }) %>
+            </ul>
+          <% } %>
+        </div>
+
+        <% if (session.role === 'admin') { %>
+          <div class="panel reveal">
+            <h3>Panel admin</h3>
+            <p class="lead" style="margin-bottom:14px;">Dikelola oleh <%= mountain.User ? mountain.User.username : 'sistem' %>.</p>
+            <div class="stack">
+              <a href="/mountains/<%= mountain.id %>/educations/add" class="btn btn-moss btn-full">Tambah temuan baru</a>
+              <a href="/mountains/<%= mountain.id %>/edit" class="btn btn-line btn-full">Perbarui informasi</a>
+              <a href="/mountains/<%= mountain.id %>/delete" class="btn btn-danger btn-full" data-confirm="Hapus data gunung ini beserta materi dan komentarnya?">Hapus data gunung</a>
+            </div>
+          </div>
+        <% } %>
+      </aside>
+    </div>
+  </div>
+
+  <%- include('partials/footer') %>
+</body>
+</html>

@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <%- include('partials/head', { title: 'Masuk' }) %>
+</head>
+<body>
+  <%- include('partials/navbar', { session, active: '' }) %>
+
+  <div class="sheet">
+    <div class="panel">
+      <span class="eyebrow">Selamat datang kembali</span>
+      <h2>Masuk ke GunungKu</h2>
+      <p class="lead" style="margin-bottom:22px;">Gunakan email dan password yang sudah terdaftar.</p>
+
+      <%- include('partials/alert', { error, notif }) %>
+
+      <form action="/login" method="POST">
+        <div class="field-block">
+          <label for="email">Email</label>
+          <input type="email" id="email" name="email" placeholder="nama@mail.com">
+        </div>
+        <div class="field-block">
+          <label for="password">Password</label>
+          <input type="password" id="password" name="password" placeholder="Password kamu">
+        </div>
+        <button type="submit" class="btn btn-sun btn-full">Masuk</button>
+      </form>
+
+      <p style="margin-top:18px; font-size:14px; color:var(--ink-soft);">
+        Belum punya akun? <a href="/register" style="color:var(--moss); font-weight:600;">Daftar dulu</a>
+      </p>
+    </div>
+  </div>
+
+  <%- include('partials/footer') %>
+</body>
+</html>
