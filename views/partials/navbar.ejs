@@ -1,0 +1,32 @@
+<nav class="nav">
+  <div class="wrap">
+    <a href="/" class="brand">
+      <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+        <path d="M2 20h20L14.5 5l-4 7.5L8 9z" stroke="#2f6b4f" stroke-width="1.8" stroke-linejoin="round"/>
+        <path d="M12.4 9.2h4.2" stroke="#dd9a34" stroke-width="1.8" stroke-linecap="round"/>
+      </svg>
+      GELORA
+    </a>
+
+    <button class="nav-toggle" type="button" aria-expanded="false" aria-label="Buka menu">Menu</button>
+
+    <div class="nav-links">
+      <a href="/" class="<%= active === 'home' ? 'on' : '' %>">Beranda</a>
+      <a href="/mountains" class="<%= active === 'mountains' ? 'on' : '' %>">Jelajah Gunung</a>
+      <a href="/profile" class="<%= active === 'profile' ? 'on' : '' %>">Catatan Saya</a>
+    </div>
+
+    <div class="nav-right">
+      <% if (session.userId) { %>
+        <span class="who"><b><%= session.username %></b> &middot; <%= session.role %></span>
+        <% if (session.role === 'admin') { %>
+          <a href="/mountains/add" class="btn btn-line btn-sm">Tambah gunung</a>
+        <% } %>
+        <a href="/logout" class="btn btn-moss btn-sm">Keluar</a>
+      <% } else { %>
+        <a href="/login" class="btn btn-line btn-sm">Masuk</a>
+        <a href="/register" class="btn btn-sun btn-sm">Buat akun</a>
+      <% } %>
+    </div>
+  </div>
+</nav>
