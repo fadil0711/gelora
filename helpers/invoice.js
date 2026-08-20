@@ -1,7 +1,5 @@
 'use strict';
 
-// MVP (Minimal Valuable Package): easyinvoice
-// dipakai untuk generate PDF invoice simaksi pendakian
 const easyinvoice = require('easyinvoice');
 const { formatDate } = require('./formatter');
 
@@ -63,7 +61,8 @@ async function createSimaksiInvoice(history) {
   };
 
   const result = await easyinvoice.createInvoice(data);
-  return Buffer.from(result.pdf, 'base64');
+  const pdfBase64 = result.pdf || result; 
+  return Buffer.from(pdfBase64, 'base64');
 }
 
 module.exports = { createSimaksiInvoice };

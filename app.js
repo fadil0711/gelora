@@ -2,8 +2,7 @@
 
 const express = require('express');
 const session = require('express-session');
-const router = require('./routers/router');
-
+const router = require('./routers');
 const app = express();
 const port = process.env.PORT || 3000;
 

@@ -1,7 +1,4 @@
-/* ============================================================
-   GunungKu — sistem visual "peta topografi"
-   display  : Space Grotesk   body : Inter   angka : JetBrains Mono
-   ============================================================ */
+
 
 :root {
   --paper: #f3f5f1;
@@ -148,7 +145,6 @@ h1, h2, h3, .display {
 .hero {
   position: relative;
   overflow: hidden;
-  background: linear-gradient(150deg, #12271e 0%, #1c4635 58%, #26543f 100%);
   color: #eaf1ea;
   padding: 92px 0 130px;
 }
@@ -156,10 +152,17 @@ h1, h2, h3, .display {
   content: "";
   position: absolute;
   inset: -10% -5% auto auto;
-  width: 1100px;
+  width: 1500px;
   height: 760px;
-  background: url("/contour-light.svg") center/contain no-repeat;
-  opacity: 0.55;
+  background: url("/image-gunung.avif") no-repeat;
+  /* opacity: 0.55; */
+    background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  height: 100vh;
+  left: 0;
+  margin: 0;
   pointer-events: none;
 }
 .hero .wrap { position: relative; z-index: 2; }

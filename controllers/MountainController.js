@@ -60,12 +60,17 @@ class MountainController {
 
   // CREATE
   static addForm(req, res) {
-    res.render('formMountain', {
-      mountain: null,
-      trailStatuses,
-      error: req.query.error,
-      session: req.session
-    });
+    try {
+      res.render('formMountain', {
+        mountain: null,
+        trailStatuses,
+        error: req.query.error,
+        session: req.session
+      });
+      
+    } catch (error) {
+      res.send(error.message)
+    }
   }
 
   static async addPost(req, res) {
