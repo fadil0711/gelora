@@ -1,0 +1,22 @@
+{
+  "educationCategories": [
+    {
+      "name": "Flora",
+      "tone": "moss",
+      "hint": "Tumbuhan khas yang bisa ditemui pendaki di sepanjang jalur."
+    },
+    {
+      "name": "Fauna",
+      "tone": "sun",
+      "hint": "Satwa liar penghuni kawasan gunung dan status perlindungannya."
+    },
+    {
+      "name": "Fakta Unik",
+      "tone": "sky",
+      "hint": "Catatan geologi, budaya, atau kejadian langka di gunung tersebut."
+    }
+  ],
+  "trailStatuses": ["Buka", "Buka Terbatas", "Tutup"],
+  "hikeStatuses": ["Ingin Didaki", "Terdaftar", "Selesai Didaki"],
+  "highestPeak": 3805
+}

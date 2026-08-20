@@ -49,7 +49,7 @@ module.exports = (sequelize, DataTypes) => {
     }
   }, {
     sequelize,
-    modelName: 'Education'
+    modelName: 'Educations'
   });
 
   return Education;
