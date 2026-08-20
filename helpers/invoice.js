@@ -8,11 +8,7 @@ async function createSimaksiInvoice(history) {
   const nomor = `SIMAKSI-${String(history.id).padStart(4, '0')}`;
 
   const data = {
-    apiKey: 'free',
     mode: 'development',
-    images: {
-      logo: 'https://placehold.co/200x60/1f6feb/ffffff?text=GunungKu'
-    },
     sender: {
       company: 'GunungKu Education',
       address: 'Jl. Pendaki Raya No. 17',
@@ -59,6 +55,10 @@ async function createSimaksiInvoice(history) {
       total: 'Total'
     }
   };
+
+  if (process.env.EASYINVOICE_API_KEY) {
+    data.apiKey = process.env.EASYINVOICE_API_KEY;
+  }
 
   const result = await easyinvoice.createInvoice(data);
   const pdfBase64 = result.pdf || result; 
