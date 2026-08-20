@@ -13,7 +13,7 @@ const commentRoutes = require('./commentRoutes');
 
 router.get('/', UserController.landingPage);
 router.use('/', userRoutes); 
-router.get('/mountains/:id', MountainController.detailPage);
+router.get(/^\/mountains\/(?<id>\d+)$/, MountainController.detailPage);
 
 router.use(isLogin);
 
