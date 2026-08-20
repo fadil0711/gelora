@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <%- include('partials/head', { title: 'Edit Komentar' }) %>
+</head>
+<body>
+  <%- include('partials/navbar', { session, active: 'mountains' }) %>
+
+  <div class="sheet">
+    <div class="panel">
+      <span class="eyebrow">Komentarmu</span>
+      <h2>Perbarui catatan ini</h2>
+      <p class="lead" style="margin-bottom:22px;">Perubahan langsung tampil di halaman gunung setelah disimpan.</p>
+
+      <%- include('partials/alert', { error, notif: null }) %>
+
+      <form action="/comments/<%= comment.id %>/edit" method="POST">
+        <div class="field-block">
+          <label for="content">Isi komentar</label>
+          <textarea id="content" name="content"><%= comment.content %></textarea>
+        </div>
+        <div class="form-actions">
+          <button type="submit" class="btn btn-sun">Simpan perubahan</button>
+          <a href="/mountains/<%= comment.mountainId %>" class="btn btn-line">Batal</a>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <%- include('partials/footer') %>
+</body>
+</html>

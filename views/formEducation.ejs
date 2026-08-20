@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <%- include('partials/head', { title: 'Tambah Temuan' }) %>
+</head>
+<body>
+  <%- include('partials/navbar', { session, active: 'mountains' }) %>
+
+  <div class="sheet">
+    <div class="panel">
+      <span class="eyebrow">Panel admin</span>
+      <h2>Temuan baru di <%= mountain.name %></h2>
+      <p class="lead" style="margin-bottom:22px;">Catat flora, fauna, atau fakta unik yang baru dilaporkan dari jalur.</p>
+
+      <%- include('partials/alert', { error, notif: null }) %>
+
+      <form action="/mountains/<%= mountain.id %>/educations/add" method="POST">
+        <div class="field-block">
+          <label for="category">Kategori</label>
+          <select id="category" name="category">
+            <% educationCategories.forEach((category) => { %>
+              <option value="<%= category.name %>"><%= category.name %> &mdash; <%= category.hint %></option>
+            <% }) %>
+          </select>
+        </div>
+        <div class="field-block">
+          <label for="title">Judul</label>
+          <input type="text" id="title" name="title" placeholder="Anggrek tebing Semeru">
+        </div>
+        <div class="field-block">
+          <label for="content">Keterangan</label>
+          <textarea id="content" name="content" placeholder="Jelaskan temuannya: lokasi, ciri, dan status perlindungannya"></textarea>
+        </div>
+        <div class="form-actions">
+          <button type="submit" class="btn btn-sun">Simpan temuan</button>
+          <a href="/mountains/<%= mountain.id %>" class="btn btn-line">Batal</a>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <%- include('partials/footer') %>
+</body>
+</html>

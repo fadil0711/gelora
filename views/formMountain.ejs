@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <%- include('partials/head', { title: mountain ? 'Perbarui Gunung' : 'Tambah Gunung' }) %>
+</head>
+<body>
+  <%- include('partials/navbar', { session, active: 'mountains' }) %>
+
+  <div class="sheet-wide">
+    <div class="panel">
+      <span class="eyebrow">Panel admin</span>
+      <h2><%= mountain ? `Perbarui ${mountain.name}` : 'Tambah data gunung baru' %></h2>
+      <p class="lead" style="margin-bottom:22px;">Isi semua kolom supaya materinya benar-benar bisa dipakai pendaki sebelum berangkat.</p>
+
+      <%- include('partials/alert', { error, notif: null }) %>
+
+      <form action="<%= mountain ? `/mountains/${mountain.id}/edit` : '/mountains/add' %>" method="POST">
+        <div class="field-row">
+          <div class="field-block">
+            <label for="name">Nama gunung</label>
+            <input type="text" id="name" name="name" value="<%= mountain ? mountain.name : '' %>" placeholder="Gunung Semeru">
+          </div>
+          <div class="field-block">
+            <label for="location">Lokasi</label>
+            <input type="text" id="location" name="location" value="<%= mountain ? mountain.location : '' %>" placeholder="Lumajang, Jawa Timur">
+          </div>
+        </div>
+
+        <div class="field-row">
+          <div class="field-block">
+            <label for="height">Ketinggian</label>
+            <input type="number" id="height" name="height" value="<%= mountain ? mountain.height : '' %>" placeholder="3676">
+            <span class="note">Dalam mdpl, antara 100 sampai 5000.</span>
+          </div>
+          <div class="field-block">
+            <label for="trailStatus">Status jalur</label>
+            <select id="trailStatus" name="trailStatus">
+              <% trailStatuses.forEach((status) => { %>
+                <option value="<%= status %>" <%= mountain && mountain.trailStatus === status ? 'selected' : '' %>><%= status %></option>
+              <% }) %>
+            </select>
+          </div>
+        </div>
+
+        <div class="field-block">
+          <label for="imgUrl">URL gambar</label>
+          <input type="text" id="imgUrl" name="imgUrl" value="<%= mountain ? mountain.imgUrl : '' %>" placeholder="https://...">
+          <span class="note">Kosongkan kalau belum ada, nanti dipakai gambar sementara.</span>
+        </div>
+
+        <div class="field-block">
+          <label for="history">Narasi sejarah</label>
+          <textarea id="history" name="history" placeholder="Asal usul nama, catatan letusan, dan kaitannya dengan masyarakat sekitar"><%= mountain ? mountain.history : '' %></textarea>
+          <span class="note">Minimal 30 karakter.</span>
+        </div>
+
+        <div class="field-block">
+          <label for="funFact">Fakta unik</label>
+          <textarea id="funFact" name="funFact" placeholder="Satu hal menarik yang jarang diketahui pendaki"><%= mountain ? mountain.funFact : '' %></textarea>
+        </div>
+
+        <% if (!mountain) { %>
+          <div class="field-row">
+            <div class="field-block">
+              <label for="flora">Daftar flora</label>
+              <textarea id="flora" name="flora" placeholder="Edelweis Jawa | Tumbuh di Oro-oro Ombo dan dilindungi"></textarea>
+              <span class="note">Satu baris satu flora. Pisahkan nama dan keterangan dengan tanda |</span>
+            </div>
+            <div class="field-block">
+              <label for="fauna">Daftar fauna</label>
+              <textarea id="fauna" name="fauna" placeholder="Macan Tutul Jawa | Terpantau kamera jebak di Ranu Kumbolo"></textarea>
+              <span class="note">Satu baris satu fauna. Formatnya sama seperti flora.</span>
+            </div>
+          </div>
+        <% } else { %>
+          <p class="lead" style="margin-bottom:18px;">Flora dan fauna baru ditambahkan lewat tombol temuan di halaman detail, supaya data lama tidak tertimpa.</p>
+        <% } %>
+
+        <div class="form-actions">
+          <button type="submit" class="btn btn-sun"><%= mountain ? 'Simpan perubahan' : 'Tambahkan gunung' %></button>
+          <a href="<%= mountain ? `/mountains/${mountain.id}` : '/mountains' %>" class="btn btn-line">Batal</a>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <%- include('partials/footer') %>
+</body>
+</html>

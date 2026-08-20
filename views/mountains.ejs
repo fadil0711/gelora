@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <%- include('partials/head', { title: 'Jelajah Gunung' }) %>
+</head>
+<body>
+  <%- include('partials/navbar', { session, active: 'mountains' }) %>
+
+  <section class="section">
+    <div class="wrap">
+      <div class="head">
+        <div>
+          <span class="eyebrow">Daftar lengkap</span>
+          <h2>Jelajah gunung Indonesia</h2>
+          <p>Cari berdasarkan nama gunung atau daerahnya, lalu urutkan sesuai ketinggian.</p>
+        </div>
+        <% if (session.role === 'admin') { %>
+          <a href="/mountains/add" class="btn btn-sun btn-sm">Tambah data gunung</a>
+        <% } %>
+      </div>
+
+      <%- include('partials/alert', { notif, error }) %>
+
+      <form class="finder" action="/mountains" method="GET" style="margin-bottom:30px;">
+        <div class="field">
+          <label for="search">Kata kunci</label>
+          <input type="text" id="search" name="search" value="<%= search || '' %>" placeholder="Nama gunung atau daerah">
+        </div>
+        <div class="field">
+          <label for="sort">Urutkan</label>
+          <select id="sort" name="sort">
+            <option value="" <%= !sort ? 'selected' : '' %>>Paling awal ditambahkan</option>
+            <option value="tertinggi" <%= sort === 'tertinggi' ? 'selected' : '' %>>Ketinggian tertinggi</option>
+            <option value="terendah" <%= sort === 'terendah' ? 'selected' : '' %>>Ketinggian terendah</option>
+            <option value="nama" <%= sort === 'nama' ? 'selected' : '' %>>Nama A sampai Z</option>
+          </select>
+        </div>
+        <button type="submit" class="btn btn-moss">Terapkan</button>
+      </form>
+
+      <% if (mountains.length === 0) { %>
+        <div class="panel panel-quiet blank">
+          <h3>Tidak ada gunung yang cocok</h3>
+          <p>Coba kata kunci lain, misalnya nama provinsi seperti "Jawa Tengah".</p>
+          <a href="/mountains" class="btn btn-line btn-sm">Tampilkan semua</a>
+        </div>
+      <% } else { %>
+        <div class="cards">
+          <% mountains.forEach((mountain) => { %>
+            <%- include('partials/mountainCard', { mountain }) %>
+          <% }) %>
+        </div>
+      <% } %>
+    </div>
+  </section>
+
+  <%- include('partials/footer') %>
+</body>
+</html>

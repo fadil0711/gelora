@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <%- include('partials/head', { title: 'Buat Akun' }) %>
+</head>
+<body>
+  <%- include('partials/navbar', { session, active: '' }) %>
+
+  <div class="sheet">
+    <div class="panel">
+      <span class="eyebrow">Gabung</span>
+      <h2>Buat akun pendaki</h2>
+      <p class="lead" style="margin-bottom:22px;">Akun dipakai untuk berdiskusi dan menyimpan rencana pendakianmu.</p>
+
+      <%- include('partials/alert', { error, notif: null }) %>
+
+      <form action="/register" method="POST">
+        <div class="field-row">
+          <div class="field-block">
+            <label for="username">Username</label>
+            <input type="text" id="username" name="username" placeholder="ariefpendaki">
+          </div>
+          <div class="field-block">
+            <label for="fullName">Nama lengkap</label>
+            <input type="text" id="fullName" name="fullName" placeholder="Arief Rizky">
+          </div>
+        </div>
+        <div class="field-row">
+          <div class="field-block">
+            <label for="email">Email</label>
+            <input type="email" id="email" name="email" placeholder="nama@mail.com">
+          </div>
+          <div class="field-block">
+            <label for="phone">Nomor HP</label>
+            <input type="text" id="phone" name="phone" placeholder="081234567890">
+          </div>
+        </div>
+        <div class="field-block">
+          <label for="password">Password</label>
+          <input type="password" id="password" name="password" placeholder="Minimal 8 karakter">
+        </div>
+        <div class="field-block">
+          <label for="bio">Bio singkat</label>
+          <textarea id="bio" name="bio" placeholder="Gunung apa yang sudah pernah kamu daki?"></textarea>
+        </div>
+        <button type="submit" class="btn btn-sun btn-full">Buat akun</button>
+      </form>
+
+      <p style="margin-top:18px; font-size:14px; color:var(--ink-soft);">
+        Sudah punya akun? <a href="/login" style="color:var(--moss); font-weight:600;">Masuk di sini</a>
+      </p>
+    </div>
+  </div>
+
+  <%- include('partials/footer') %>
+</body>
+</html>
