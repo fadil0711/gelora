@@ -6,7 +6,6 @@ const { hashPassword } = require('../helpers/bcrypt');
 module.exports = (sequelize, DataTypes) => {
   class User extends Model {
     static associate(models) {
-      // One to One
       User.hasOne(models.Profile, { foreignKey: 'userId' });
       // One to Many
       User.hasMany(models.Mountain, { foreignKey: 'userId' });
@@ -19,13 +18,9 @@ module.exports = (sequelize, DataTypes) => {
         as: 'VisitedMountains'
       });
     }
-
-    // instance method
     isAdmin() {
       return this.role === 'admin';
     }
-
-    // getter: email disamarkan supaya aman ditampilkan di halaman publik
     get maskedEmail() {
       const parts = this.email.split('@');
       const front = parts[0].slice(0, 3);

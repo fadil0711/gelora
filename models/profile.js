@@ -7,8 +7,6 @@ module.exports = (sequelize, DataTypes) => {
     static associate(models) {
       Profile.belongsTo(models.User, { foreignKey: 'userId' });
     }
-
-    // getter
     get initial() {
       const words = this.fullName.split(' ');
       const letters = words.map((word) => word[0].toUpperCase());

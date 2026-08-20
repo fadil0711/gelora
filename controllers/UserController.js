@@ -87,7 +87,6 @@ class UserController {
 
   static async profilePage(req, res) {
     try {
-      // eager loading: User + Profile + Mountain (lewat MountainHistory)
       const user = await User.findByPk(req.session.userId, {
         include: [
           { model: Profile },
@@ -140,8 +139,6 @@ class UserController {
       res.render('error', { message: error.message });
     }
   }
-
-  // MVP: generate invoice simaksi memakai package easyinvoice
   static async downloadInvoice(req, res) {
     try {
       const history = await MountainHistory.findOne({
