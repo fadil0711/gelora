@@ -86,34 +86,40 @@ class UserController {
   }
 
   static async profilePage(req, res) {
-    try {
-      const user = await User.findByPk(req.session.userId, {
-        include: [
-          { model: Profile },
-          { model: Mountain }
-        ]
-      });
+  try {
+    const user = await User.findByPk(req.session.userId, {
+      include: [
+        { model: Profile },
+        { model: Mountain }
+      ]
+    });
 
-      const histories = await MountainHistory.findAll({
-        where: { userId: req.session.userId },
-        include: [{ model: Mountain }],
-        order: [['createdAt', 'DESC']]
-      });
+    const histories = await MountainHistory.findAll({
+      where: { userId: req.session.userId },
+      include: [
+        { model: Mountain },
+        { 
+          model: User, 
+          include: [{ model: Profile }] // ✅ Di-include agar data User & Profile tersedia di riwayat
+        }
+      ],
+      order: [['createdAt', 'DESC']]
+    });
 
-      res.render('profile', {
-        user,
-        histories,
-        formatDate,
-        formatRupiah,
-        notif: req.query.notif,
-        error: req.query.error,
-        session: req.session
-      });
-    } catch (error) {
-      res.render('error', { message: error.message });
-    }
+    res.render('profile', {
+      user,
+      histories,
+      formatDate,
+      formatRupiah,
+      notif: req.query.notif,
+      error: req.query.error,
+      session: req.session
+    });
+  } catch (error) {
+    console.log(error); // Untuk membantu lacak error di terminal jika ada
+    res.render('error', { message: error.message });
   }
-
+}
   static async addHistory(req, res) {
     try {
       const { status } = req.body;

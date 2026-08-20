@@ -9,6 +9,7 @@ module.exports = (sequelize, DataTypes) => {
       MountainHistory.belongsTo(models.User, { foreignKey: 'userId' });
       MountainHistory.belongsTo(models.Mountain, { foreignKey: 'mountainId' });
     }
+
     simaksiFee() {
       if (this.status === 'Selesai Didaki') {
         return 0;
