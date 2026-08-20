@@ -6,7 +6,6 @@ const { trailStatuses, highestPeak } = require('../helpers/category');
 module.exports = (sequelize, DataTypes) => {
   class Mountain extends Model {
     static associate(models) {
-      // One to Many
       Mountain.belongsTo(models.User, { foreignKey: 'userId' });
       Mountain.hasMany(models.Education, { foreignKey: 'mountainId', as: 'Educations' });
       Mountain.hasMany(models.Comment, { foreignKey: 'mountainId' });
@@ -18,8 +17,6 @@ module.exports = (sequelize, DataTypes) => {
         as: 'Visitors'
       });
     }
-
-    // static method: dipakai halaman daftar gunung untuk search + sort
     static async searchAndSort(keyword, sort) {
       const options = { include: [{ association: 'Educations' }] };
 
@@ -45,8 +42,6 @@ module.exports = (sequelize, DataTypes) => {
       const mountains = await Mountain.findAll(options);
       return mountains;
     }
-
-    // instance method
     difficulty() {
       if (this.height >= 3400) {
         return 'Sulit';
@@ -55,13 +50,9 @@ module.exports = (sequelize, DataTypes) => {
       }
       return 'Pemula';
     }
-
-    // getter
     get heightFormatted() {
       return `${this.height.toLocaleString('id-ID')} mdpl`;
     }
-
-    // getter: posisi ketinggian gunung ini terhadap puncak tertinggi Indonesia
     get elevationPercent() {
       const percent = Math.round((this.height / highestPeak) * 100);
       return percent > 100 ? 100 : percent;
@@ -139,8 +130,6 @@ module.exports = (sequelize, DataTypes) => {
     sequelize,
     modelName: 'Mountain'
   });
-
-  // hooks: rapikan penulisan nama & lokasi sebelum masuk database
   Mountain.beforeCreate((mountain) => {
     mountain.name = mountain.name.trim();
     mountain.location = mountain.location.trim();

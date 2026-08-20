@@ -3,7 +3,6 @@
 const { Comment } = require('../models');
 
 class CommentController {
-  // CREATE komentar
   static async addComment(req, res) {
     try {
       const { content } = req.body;
@@ -24,8 +23,6 @@ class CommentController {
       res.render('error', { message: error.message });
     }
   }
-
-  // UPDATE komentar milik sendiri
   static async editForm(req, res) {
     try {
       const comment = await Comment.findByPk(req.params.id);
@@ -55,8 +52,6 @@ class CommentController {
       res.render('error', { message: error.message });
     }
   }
-
-  // DELETE komentar milik sendiri, memakai promise chaining
   static deleteComment(req, res) {
     let mountainId = '';
 

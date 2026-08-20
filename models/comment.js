@@ -9,13 +9,9 @@ module.exports = (sequelize, DataTypes) => {
       Comment.belongsTo(models.User, { foreignKey: 'userId' });
       Comment.belongsTo(models.Mountain, { foreignKey: 'mountainId' });
     }
-
-    // instance method
     isOwnedBy(userId) {
       return this.userId === userId;
     }
-
-    // getter
     get postedAt() {
       return formatDate(this.createdAt);
     }

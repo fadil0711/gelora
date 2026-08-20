@@ -9,7 +9,6 @@ module.exports = (sequelize, DataTypes) => {
       Education.belongsTo(models.Mountain, { foreignKey: 'mountainId' });
     }
 
-    // getter: warna badge diambil dari konfigurasi category.json
     get badgeColor() {
       return `badge-${toneOf(this.category)}`;
     }

@@ -5,7 +5,6 @@ const { splitLines, formatDate } = require('../helpers/formatter');
 const { educationCategories, trailStatuses, hikeStatuses } = require('../helpers/category');
 
 class MountainController {
-  // READ: daftar gunung + search & sort (static method + Op)
   static async listPage(req, res) {
     try {
       const { search, sort } = req.query;
@@ -23,8 +22,6 @@ class MountainController {
       res.render('error', { message: error.message });
     }
   }
-
-  // READ: halaman detail, eager loading 3 tabel sekaligus
   static async detailPage(req, res) {
     try {
       const mountain = await Mountain.findByPk(req.params.id, {
@@ -125,8 +122,6 @@ class MountainController {
       res.render('error', { message: error.message });
     }
   }
-
-  // UPDATE
   static async editForm(req, res) {
     try {
       const mountain = await Mountain.findByPk(req.params.id);
@@ -166,8 +161,6 @@ class MountainController {
       res.render('error', { message: error.message });
     }
   }
-
-  // DELETE dengan promise chaining (notifikasi seperti challenge 6)
   static deleteMountain(req, res) {
     let namaGunung = '';
 
@@ -187,8 +180,6 @@ class MountainController {
         res.redirect(`/mountains?error=${error.message}`);
       });
   }
-
-  // CREATE materi edukasi tambahan (flora/fauna/fakta baru)
   static async addEducationForm(req, res) {
     try {
       const mountain = await Mountain.findByPk(req.params.id);
